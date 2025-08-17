@@ -6,17 +6,87 @@
 //     });
 // };
 
+// const contacts = require('./contacts');
+
+// const main = async () => {
+//     const nama = await contacts.tulisPertanyaan('masukkan nama anda : ');
+//     const email = await contacts.tulisPertanyaan('masukkan email anda : ');
+//     const noHp = await contacts.tulisPertanyaan('masukkan no.hp anda : ');
+
+//     contacts.simpanContact(nama, email, noHp);
+// };
+
+// main();
+
+
+//mengambil argumen dari command line
+// console.log(process.argv);
+
+const yargs = require('yargs');
 const contacts = require('./contacts');
 
-const main = async () => {
-    const nama = await contacts.tulisPertanyaan('masukkan nama anda : ');
-    const email = await contacts.tulisPertanyaan('masukkan email anda : ');
-    const noHp = await contacts.tulisPertanyaan('masukkan no.hp anda : ');
+// yargs.command(
+//     'add',
+//     'menambahkan contact baru',
+//     () => { },
+//     (argv) => {
+//         console.log(argv.nama);
+//     }
+// );
 
-    contacts.simpanContact(nama, email, noHp);
-};
+yargs.command({
+    command: 'add',
+    describe: 'menambahkan contact baru',
+    builder: {
+        nama: {
+            describe: 'nama lengkap',
+            demandOption: true,
+            type: 'string',
+        },
+        email: {
+            describe: 'email',
+            demandOption: false,
+            type: 'string',
+        },
+        noHp: {
+            describe: 'no hp',
+            demandOption: true,
+            type: 'string',
+        },
+    },
+    handler(argv) {
+        // const contact = {
+        //     nama: argv.nama,
+        //     email: argv.email,
+        //     noHp: argv.noHp,
+        // };
+        // console.log(contact);
 
-main();
+        contacts.simpanContact(argv.nama, argv.email, argv.noHp);
+    },
+});
+
+yargs.parse();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // rl.question('masukkan nama anda : ', (nama) => {
 //     rl.question('masukkan no hp anda : ', (noHP) => {
